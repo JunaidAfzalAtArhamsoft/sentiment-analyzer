@@ -17,10 +17,6 @@ class AnalyzerApi(View):
 
         text = str(self.request.POST.get('text'))
         classifier = MessageClassifier(text)
-        content = '<h1> Text: {} <br> Polarity: {}</h1>'.format(
-            str(self.request.POST.get('text')),
-            classifier.analyze()
-        )
         data = {
             'sentiment': classifier.analyze(),
             'text': str(self.request.POST.get('text'))
