@@ -1,11 +1,11 @@
-import os
+""" This module contains Apis to handle Sentiment Analysis on pdf """
 
+import os
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import render
 from classifier.sentiment_analyzer import MessageClassifier
 from django.views import View
 import fitz
-
 
 
 class AnalyzerApi(View):
