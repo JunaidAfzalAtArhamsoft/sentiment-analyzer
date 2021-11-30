@@ -7,7 +7,19 @@
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
+        <style>
+textarea {
+  width: 50%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -26,7 +38,16 @@
                 Check Sentiment
             </button>
         </a>
+            <hr>
+            <h3>OR</h3>
+            <hr>
         </form>
+        <a href="{% url 'classifier_app:file_upload'%}">
+            <button type="submit" class="btn btn-primary">
+                Analyze File
+            </button>
+        </a>
+
     </div>
 </body>
 </html>

@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-^(oxygq!g6s=iwr4ph=sx5rqw%n#f9ut1+fyuxi*3^bi0mdnr$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['junaid-sentiment-analyzer.herokuapp.com']
+ALLOWED_HOSTS = ['junaid-sentiment-analyzer.herokuapp.com', '127.0.0.1']
 
 
 # Application definition

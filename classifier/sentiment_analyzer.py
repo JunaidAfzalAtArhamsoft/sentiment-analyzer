@@ -9,11 +9,14 @@ class MessageClassifier:
     def __init__(self, text='I am very powerful.'):
         self.text = text
 
-    def sentiment(self):
+    def analyze_text(self):
         """ classify text as positive or negative."""
 
         result = TextBlob(self.text)
-        return result.sentiment
+        analyzed_data = {}
+        for line in result.sentences:
+            analyzed_data[line] = [line.sentiment.polarity, line.sentiment.subjectivity]
+        return analyzed_data
 
     def tokens(self):
         """
@@ -25,25 +28,35 @@ class MessageClassifier:
         result = TextBlob(self.text)
         return result.words
 
-    def analyze(self) -> str:
+    def analyze(self) -> dict:
         """
             Analyze the tone and return it.
         Returns:
             Tone of statement (str):
         """
-        polarity, subjectivity = self.sentiment()
+        data = self.analyze_text()
+        new_data = {}
+        for key in data:
+            print(data[key][0], data[key][1])
+            if data[key][0] > 0.6:
+                new_data[key] = 'Highly Positive' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
 
-        if polarity > 0.6:
-            return 'Highly Positive'
-        if polarity > 0.3:
-            return 'Positive'
-        if polarity > 0:
-            return 'Just Fine'
-        if polarity == 0:
-            return 'Neutral'
-        if polarity > -0.3:
-            return 'Negative'
-        if polarity > -0.6:
-            return 'Highly Negative'
+            if data[key][0] > 0.3:
+                new_data[key] = 'Positive' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
 
-        return 'Extremely Negative'
+            if data[key][0] > 0:
+                new_data[key] = 'Just Fine' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
+
+            if data[key][0] == 0:
+                new_data[key] = 'Neutral' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
+
+            if data[key][0] < 0:
+                new_data[key] = 'Not Good' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
+
+            if data[key][0] < -0.3:
+                new_data[key] = 'Negative' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
+
+            if data[key][0] < -0.6:
+                new_data[key] = 'Highly Negative' + ' ' + str(data[key][0]) + ' ' + str(data[key][1])
+
+        return new_data
