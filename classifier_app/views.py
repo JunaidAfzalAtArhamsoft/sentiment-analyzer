@@ -6,6 +6,7 @@ from django.shortcuts import render
 from classifier.sentiment_analyzer import MessageClassifier
 from django.views import View
 import fitz
+import re
 
 
 class AnalyzerApi(View):
@@ -41,8 +42,8 @@ class AnalyzerApi(View):
         )
 
 
-class UploadFile(View):
-    """ upload file to server for processing """
+class SentimentOfFile(View):
+    """ Get file from user for processing"""
 
     def get(self, request, *args, **kwargs):
         """
@@ -51,12 +52,12 @@ class UploadFile(View):
 
         return render(
             request=self.request,
-            template_name='classifier_app/file_upload.html'
+            template_name='classifier_app/get_file.html'
         )
 
     def post(self, request, *args, **kwargs):
         """
-        Get Text from user and return its sentiment
+        Get pdf from user and return its sentiment
 
         Returns:
             Html Page
@@ -70,7 +71,7 @@ class UploadFile(View):
             text = ""
             for page in doc:
                 text += page.getText()
-            os.remove(filename)
+            # os.remove(filename)
             classifier = MessageClassifier(text)
             data = {
                 'data': classifier.analyze()
@@ -80,3 +81,55 @@ class UploadFile(View):
                 template_name='classifier_app/result_page.html',
                 context=data
             )
+
+
+class ShowFileOperations(View):
+    """ Show operations available on file """
+
+    def get(self, request, *args, **kwargs):
+        """ return Page containing operations file """
+        return render(
+            request=request,
+            template_name='classifier_app/file_upload.html',
+            context={}
+        )
+
+
+class SearchInFile(View):
+    """ Search in file """
+    def get(self, request, *args, **kwargs):
+        """ get the file and search keyword from user """
+        return render(
+            request=request,
+            template_name='classifier_app/search_in_file.html',
+            context={}
+        )
+
+    def post(self, request, *args, **kwargs):
+        """ show the search results to user """
+        file = request.FILES['myfile']
+        query = str(self.request.POST.get('query'))
+        fs = FileSystemStorage()
+        filename = fs.save(file.name, file)
+
+        with fitz.open(filename) as doc:
+            text = ""
+            page_locations = []
+            for page in doc:
+                t = page.get_text()
+                text += t
+                if query in t:
+                    page_locations.append(page.number + 1)
+
+            result = text.lower().replace(query, '<b style="color:#008000">{}</b>'.format(query))
+            data = {
+                'data': text,
+                'query': result,
+                'page_locations': page_locations,
+            }
+
+        return render(
+            request=request,
+            template_name='classifier_app/search_result_file.html',
+            context=data
+        )

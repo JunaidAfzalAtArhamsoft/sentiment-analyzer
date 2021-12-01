@@ -10,11 +10,21 @@
 </head>
 <body>
 
-  <h1> Content of File </h1>
-    {% for item in data %}
-  <p>{{item}}</p>
-  <br>
-    {% endfor %}
+  <div class="container">
+      <h2> Select the operation on file</h2>
+      <a href="{url 'classifier_app:SearchInFile'}">
+          <button class="btn btn-success">
+              Search in File
+          </button>
+      </a>
+      <hr>
+      <a href="{url 'classifier_app:'}">
+          <button class="btn btn-success">
+              Search in File
+          </button>
+      </a>
+
+  </div>
 
 </body>
 </html>
