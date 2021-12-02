@@ -12,3 +12,6 @@ This contain two types of analysis:
 
 **File Searching**
 Take file and searching query and return highlighted results and its page number.
+
+## Deployed link:
+[Sentiment Analyzer](https://junaid-sentiment-analyzer.herokuapp.com/)
