@@ -15,4 +15,3 @@ regex==2021.11.10
 sqlparse==0.4.2
 textblob==0.17.1
 tqdm==4.62.3
-corpora
